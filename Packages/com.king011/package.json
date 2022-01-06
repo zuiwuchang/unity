@@ -1,0 +1,12 @@
+{
+    "name": "com.king011",
+    "version": "0.0.1",
+    "description": "king's unity package",
+    "displayName": "king unity",
+    "unity": "2020.3",
+    "author": {
+        "name": "飛天小企鵝",
+        "email": "zuiwuchang@gmail.com",
+        "url": "https://book.king011.com"
+    }
+}
