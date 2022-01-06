@@ -14,9 +14,9 @@ namespace com.king011
             if (_label == null)
             {
                 string name = (attribute as LabelAttribute).name;
+                label.text = name;
                 _label = new GUIContent(name);
             }
-
             EditorGUI.PropertyField(position, property, _label);
         }
     }
