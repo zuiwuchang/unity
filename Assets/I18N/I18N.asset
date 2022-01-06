@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   supported:
   - language: 41
-    asset: {fileID: 0}
+    asset: {fileID: 4900000, guid: cc95d5f964ae6698b9870e9707536c65, type: 3}
     name: "\u6B63\u9AD4\u4E2D\u6587"
   - language: 40
-    asset: {fileID: 0}
+    asset: {fileID: 4900000, guid: def9ae94cede2410485ded60c9ba5528, type: 3}
     name: "\u7B80\u4F53\u4E2D\u6587"
   - language: 10
-    asset: {fileID: 0}
+    asset: {fileID: 4900000, guid: 1c670a9f7a3adf5a3abb0420231e603b, type: 3}
     name: English
   mapping:
   - language: 6
     languages: 29000000
   defaultLanguage: 10
-  loaded: 0
+  reset: 0

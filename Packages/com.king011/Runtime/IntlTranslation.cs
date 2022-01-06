@@ -172,7 +172,7 @@ namespace com.king011
         private Dictionary<SystemLanguage, Dictionary<string, string>> _keys = new Dictionary<SystemLanguage, Dictionary<string, string>>();
         private string GetKey(SystemLanguage language, TextAsset asset, string key)
         {
-            var keys = _keys[language];
+            var keys = _keys.GetValueOrDefault(language);
             if (keys == null)
             {
                 try
@@ -188,7 +188,7 @@ namespace com.king011
 
                 _keys.Add(language, keys);
             }
-            var val = keys[key];
+            var val = keys.GetValueOrDefault(key);
             if (val != null)
             {
                 return val;
@@ -205,13 +205,13 @@ namespace com.king011
             _init(true);
 
             // settings
-            var supported = _supported[_language];
+            var supported = _supported.GetValueOrDefault(_language);
             if (supported != null)
             {
                 return GetKey(supported.language, supported.asset, key);
             }
             // system
-            supported = _supported[Application.systemLanguage];
+            supported = _supported.GetValueOrDefault(Application.systemLanguage);
             if (supported != null)
             {
                 return GetKey(supported.language, supported.asset, key);
@@ -219,7 +219,7 @@ namespace com.king011
             // default
             if (defaultLanguage != null)
             {
-                supported = _supported[defaultLanguage];
+                supported = _supported.GetValueOrDefault(defaultLanguage);
                 if (supported != null)
                 {
                     return GetKey(supported.language, supported.asset, key);
