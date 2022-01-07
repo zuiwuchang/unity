@@ -520,7 +520,6 @@ MonoBehaviour:
   text:
   - key: start
     node: {fileID: 1643701091}
-  reset: 0
 --- !u!4 &1307032970
 Transform:
   m_ObjectHideFlags: 0
@@ -842,7 +841,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1521510948}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1307032969}
+        m_TargetAssemblyTypeName: com.king011.TranslationListener, Unity.com.king011.Runtime
+        m_MethodName: LanguageChineseSimplified
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1521510948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,7 +974,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1640719758}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1307032969}
+        m_TargetAssemblyTypeName: com.king011.TranslationListener, Unity.com.king011.Runtime
+        m_MethodName: LanguageEnglish
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1640719758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,7 +1186,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1804963679}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1307032969}
+        m_TargetAssemblyTypeName: com.king011.TranslationListener, Unity.com.king011.Runtime
+        m_MethodName: LanguageChineseTraditional
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1804963679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,7 +1385,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2001162038}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1307032969}
+        m_TargetAssemblyTypeName: com.king011.TranslationListener, Unity.com.king011.Runtime
+        m_MethodName: DefaultLanguage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2001162038
 MonoBehaviour:
   m_ObjectHideFlags: 0

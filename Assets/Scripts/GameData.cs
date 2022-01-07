@@ -17,6 +17,4 @@ public class GameData : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    [Label("翻譯")]
-    public IntlTranslation intlTranslation;
 }

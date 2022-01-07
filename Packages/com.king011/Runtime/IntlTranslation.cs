@@ -11,6 +11,7 @@ namespace com.king011
     [CreateAssetMenu(fileName = "I18N", menuName = "ScriptableObjects/I18N", order = 1)]
     public class IntlTranslation : ScriptableObject
     {
+        static public string DBKey = "IntlTranslation.language";
         private OnLanguageChange _languageChange;
         public void AddListener(OnLanguageChange listener)
         {
@@ -40,7 +41,7 @@ namespace com.king011
             {
                 get
                 {
-                    return language != null && asset != null && name != "";
+                    return asset != null && name != "";
                 }
             }
             public static Localization Create(SystemLanguage language, TextAsset asset, string name)
@@ -77,9 +78,9 @@ namespace com.king011
         /// <summary>
         /// 當前使用的語言，如果爲 null 則使用系統語言 或 默認語言
         /// </summary>
-        private SystemLanguage _language;
+        private SystemLanguage? _language;
 
-        public SystemLanguage language
+        public SystemLanguage? language
         {
             get
             {
@@ -91,14 +92,21 @@ namespace com.king011
                 {
                     return;
                 }
-                if (value != null)
+                if (value.HasValue)
                 {
                     _init();
-                    if (!_supported.ContainsKey(value))
+                    if (!_supported.ContainsKey(value.Value))
                     {
                         Debug.Log($"set language not supported: {value}");
                         return;
                     }
+                    Debug.Log($"set language: {value}");
+                    PlayerPrefs.SetInt(DBKey, (int)(value.Value));
+                }
+                else
+                {
+                    Debug.Log($"set language: null");
+                    PlayerPrefs.SetInt(DBKey, -1);
                 }
                 _language = value;
                 LanguageChange();
@@ -106,24 +114,25 @@ namespace com.king011
         }
         [Label("用於開發時重載配置")]
         public bool reset = false;
+        static private bool loaded = false;
         protected IntlTranslation()
         {
             supported = new Localization[] {
-                 Localization.Create(SystemLanguage.ChineseTraditional,null,"正體中文"),
-                 Localization.Create(SystemLanguage.ChineseSimplified,null,"简体中文"),
-                 Localization.Create(SystemLanguage.Japanese,null,"日本"),
-                 Localization.Create(SystemLanguage.English,null,"English"),
-            };
-            mapping = new Mapping[] {
-                Mapping.Create(SystemLanguage.ChineseTraditional,
-                    new SystemLanguage[]{SystemLanguage.Chinese}
-                ),
-            };
-        }
+                    Localization.Create(SystemLanguage.ChineseTraditional,null,"正體中文"),
+                    Localization.Create(SystemLanguage.ChineseSimplified,null,"简体中文"),
+                    Localization.Create(SystemLanguage.Japanese,null,"日本"),
+                    Localization.Create(SystemLanguage.English,null,"English"),
+                };
 
+            mapping = new Mapping[] {
+                    Mapping.Create(SystemLanguage.ChineseTraditional,
+                        new SystemLanguage[]{SystemLanguage.Chinese}
+                    ),
+                };
+        }
         private void _init(bool signal = false)
         {
-            if (!reset)
+            if (loaded && !reset)
             {
                 return;
             }
@@ -142,7 +151,7 @@ namespace com.king011
                 {
                     foreach (var m in mapping)
                     {
-                        var val = _supported[m.language];
+                        var val = GetDictionaryKey(_supported, m.language, null);
                         if (val == null)
                         {
                             continue;
@@ -158,7 +167,29 @@ namespace com.king011
                     }
                 }
             }
+            int use = PlayerPrefs.GetInt(DBKey, -1);
+            if (use < 0 || use > 41)
+            {
+                Debug.Log($"load language: null");
+                _language = null;
+            }
+            else
+            {
+                var lang = (SystemLanguage)use;
+                if (_supported.ContainsKey(lang))
+                {
+                    Debug.Log($"load language: {lang}");
+                    _language = lang;
+                }
+                else
+                {
+                    Debug.Log($"load language: {lang} not supported");
+                    _language = null;
+                }
+            }
+
             reset = false;
+            loaded = true;
             if (signal)
             {
                 LanguageChange();
@@ -170,14 +201,30 @@ namespace com.king011
         /// 存儲翻譯字典
         /// </summary>
         private Dictionary<SystemLanguage, Dictionary<string, string>> _keys = new Dictionary<SystemLanguage, Dictionary<string, string>>();
+
+        [System.Serializable]
+        public class Enemy
+        {
+            [SerializeField]
+            string name;
+            [SerializeField]
+            List<string> skills;
+
+            public Enemy(string name, List<string> skills)
+            {
+                this.name = name;
+                this.skills = skills;
+            }
+        }
+
         private string GetKey(SystemLanguage language, TextAsset asset, string key)
         {
-            var keys = _keys[language];
+            var keys = GetDictionaryKey(_keys, language, null);
             if (keys == null)
             {
                 try
                 {
-                    keys = JsonUtility.FromJson<Dictionary<string, string>>(asset.text);
+                    keys = JsonSmall.MapString(asset.text);
                 }
                 catch (System.Exception e)
                 {
@@ -188,7 +235,7 @@ namespace com.king011
 
                 _keys.Add(language, keys);
             }
-            var val = keys[key];
+            var val = GetDictionaryKey(keys, key, null);
             if (val != null)
             {
                 return val;
@@ -204,31 +251,43 @@ namespace com.king011
         {
             _init(true);
 
+            Localization supported;
             // settings
-            var supported = _supported[_language];
-            if (supported != null)
+            if (_language.HasValue)
             {
-                return GetKey(supported.language, supported.asset, key);
-            }
-            // system
-            supported = _supported[Application.systemLanguage];
-            if (supported != null)
-            {
-                return GetKey(supported.language, supported.asset, key);
-            }
-            // default
-            if (defaultLanguage != null)
-            {
-                supported = _supported[defaultLanguage];
+                supported = GetDictionaryKey(_supported, _language.Value, null);
                 if (supported != null)
                 {
                     return GetKey(supported.language, supported.asset, key);
                 }
             }
+            // system
+            supported = GetDictionaryKey(_supported, Application.systemLanguage, null);
+            if (supported != null)
+            {
+                return GetKey(supported.language, supported.asset, key);
+            }
+            // default
+            supported = GetDictionaryKey(_supported, defaultLanguage, null);
+            if (supported != null)
+            {
+                return GetKey(supported.language, supported.asset, key);
+            }
 
             // not found
             Debug.Log($"IntlTranslation Get({key}) not found");
             return key;
+        }
+        private TV GetDictionaryKey<TK, TV>(Dictionary<TK, TV> dictionary, TK key, TV defaultValue)
+        {
+            try
+            {
+                return dictionary[key];
+            }
+            catch (KeyNotFoundException)
+            {
+                return defaultValue;
+            }
         }
     }
 }
