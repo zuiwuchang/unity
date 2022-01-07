@@ -112,8 +112,6 @@ namespace com.king011
                 LanguageChange();
             }
         }
-        [Label("用於開發時重載配置")]
-        public bool reset = false;
         static private bool loaded = false;
         protected IntlTranslation()
         {
@@ -130,9 +128,10 @@ namespace com.king011
                     ),
                 };
         }
+
         private void _init(bool signal = false)
         {
-            if (loaded && !reset)
+            if (loaded)
             {
                 return;
             }
@@ -188,7 +187,6 @@ namespace com.king011
                 }
             }
 
-            reset = false;
             loaded = true;
             if (signal)
             {

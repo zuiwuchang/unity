@@ -14,6 +14,7 @@ namespace com.king011
         }
         [Label("翻譯資源")]
         public IntlTranslation intlTranslation;
+
         public Node<Text>[] text;
 
         void Start()
@@ -40,6 +41,7 @@ namespace com.king011
                 }
             }
         }
+
         public void DefaultLanguage()
         {
             intlTranslation.language = null;

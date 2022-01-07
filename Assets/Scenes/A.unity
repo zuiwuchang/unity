@@ -518,7 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intlTranslation: {fileID: 11400000, guid: fd4153c4918eb36cc826f07f44784519, type: 2}
   text:
-  - key: start
+  - key: back
     node: {fileID: 1643701091}
 --- !u!4 &1307032970
 Transform:
@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 1344374960}
   - component: {fileID: 1344374959}
   m_Layer: 5
-  m_Name: Start
+  m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -631,7 +631,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1307032971}
         m_TargetAssemblyTypeName: Scripts, Assembly-CSharp
-        m_MethodName: GoA
+        m_MethodName: GoMain
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1119,7 +1119,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start
+  m_Text: Back
 --- !u!222 &1643701092
 CanvasRenderer:
   m_ObjectHideFlags: 0
