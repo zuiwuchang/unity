@@ -112,7 +112,8 @@ namespace com.king011
                 LanguageChange();
             }
         }
-        static private bool loaded = false;
+        [System.NonSerialized]
+        private bool loaded = false;
         protected IntlTranslation()
         {
             supported = new Localization[] {
