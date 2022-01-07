@@ -123,36 +123,48 @@ namespace com.king011
                     c = _str[_offset];
                     if (escape)
                     {
-                        switch (c)
+                        if (c == 'u')
                         {
-                            case '\\':
-                                str = "\\";
-                                break;
-                            case '"':
-                                str = "\"";
-                                break;
-                            case '/':
-                                str = "/";
-                                break;
-                            case 'b':
-                                str = "\b";
-                                break;
-                            case 'f':
-                                str = "\f";
-                                break;
-                            case 't':
-                                str = "\t";
-                                break;
-                            case 'n':
-                                str = "\n";
-                                break;
-                            // case 'u': 4個十六進制數字
-                            //     break;
-                            default:
-                                throw new DecoderException($"Unsupported escaping '\\{c}'");
+                            // 4 個十六進制數字
+                            throw new DecoderException($"Unsupported escaping '\\u'");
                         }
-                        start = _offset + 1;
-                        builder.Append(str);
+                        else
+                        {
+                            switch (c)
+                            {
+                                case '\\':
+                                    str = "\\";
+                                    break;
+                                case '"':
+                                    str = "\"";
+                                    break;
+                                case '\'':
+                                    str = "'";
+                                    break;
+                                case '/':
+                                    str = "/";
+                                    break;
+                                case 'b':
+                                    str = "\b";
+                                    break;
+                                case 'f':
+                                    str = "\f";
+                                    break;
+                                case 't':
+                                    str = "\t";
+                                    break;
+                                case 'r':
+                                    str = "\r";
+                                    break;
+                                case 'n':
+                                    str = "\n";
+                                    break;
+                                default:
+                                    throw new DecoderException($"Unsupported escaping '\\{c}'");
+                            }
+                            start = _offset + 1;
+                            builder.Append(str);
+                        }
                         escape = false;
                         continue;
                     }
