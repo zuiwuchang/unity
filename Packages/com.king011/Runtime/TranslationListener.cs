@@ -7,15 +7,20 @@ namespace com.king011
     public class TranslationListener : MonoBehaviour
     {
         [System.Serializable]
-        public class Node<T>
+        public class Node
         {
             public string key;
-            public T node;
+            public Text text;
+        }
+        [System.Serializable]
+        public class Layer
+        {
+            public string name;
+            public Node[] list;
         }
         [Label("翻譯資源")]
         public IntlTranslation intlTranslation;
-
-        public Node<Text>[] text;
+        public Layer[] layer;
 
         void Start()
         {
@@ -29,16 +34,28 @@ namespace com.king011
         }
         private void OnLanguageChange()
         {
-            if (text != null)
+            if (layer != null)
             {
-                foreach (var item in text)
+                foreach (var list in layer)
                 {
-                    if (item.node == null)
+                    if (list != null && list.list != null)
                     {
-                        continue;
+                        foreach (var node in list.list)
+                        {
+                            if (node != null && node.key != null)
+                            {
+                                Translation(node);
+                            }
+                        }
                     }
-                    item.node.text = intlTranslation.Get(item.key);
                 }
+            }
+        }
+        private void Translation(Node node)
+        {
+            if (node.text != null)
+            {
+                node.text.text = intlTranslation.Get(node.key);
             }
         }
 
