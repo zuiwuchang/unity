@@ -6,6 +6,12 @@ using System;
 using UnityEngine.Events;
 namespace com.king011
 {
+    [Serializable]
+    /// <summary>
+    /// Function definition for a switch state change event.
+    /// </summary>
+    public class SwitchChangeEvent : UnityEvent<bool> { }
+
     [AddComponentMenu("UI-K/Switch", 0)]
     public class Switch : Selectable, IPointerClickHandler
     {
@@ -17,15 +23,14 @@ namespace com.king011
             public Vector3 target = new Vector3(0, 0, 0);
         }
         protected Switch() { }
-        [Serializable]
-        /// <summary>
-        /// Function definition for a button click event.
-        /// </summary>
-        public class CompletedEvent : UnityEvent { }
 
         [FormerlySerializedAs("onCompleted")]
         [SerializeField]
-        private CompletedEvent _completed = new CompletedEvent();
+        private SwitchChangeEvent _completed = new SwitchChangeEvent();
+        [FormerlySerializedAs("onChanged")]
+        [SerializeField]
+        private SwitchChangeEvent _changed = new SwitchChangeEvent();
+
         [Label("動畫時間")]
         public float duration = 0.25f;
         [Label("是否選中")]
@@ -71,7 +76,8 @@ namespace com.king011
         // 點擊事件 切換 狀態
         public virtual void OnPointerClick(PointerEventData eventData)
         {
-            opened = !opened;
+            opened =  !opened;
+            _changed.Invoke(opened);
         }
         private void Update()
         {
@@ -107,6 +113,8 @@ namespace com.king011
                 // 跳過動畫直接到最終狀態
                 state.completed = true;
                 knob.localPosition = state.target;
+
+                 _completed.Invoke(opened);
                 return;
             }
 #endif
@@ -138,7 +146,7 @@ namespace com.king011
                 target.y = 0;
                 target.z = 0;
                 state.completed = true;
-                _completed.Invoke();
+                _completed.Invoke(opened);
             }
             else
             {

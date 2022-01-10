@@ -49,16 +49,16 @@ namespace com.king011
         {
             // 創建節點
             var size = new Vector2(200, 80);
-            GameObject switchRoot = CreateUIElementRoot("Switch", size);
+            GameObject root = CreateUIElementRoot("Switch", size);
 
             // 添加一個 圖像作爲背景
-            Image image = switchRoot.AddComponent<Image>();
+            Image image = root.AddComponent<Image>();
             image.sprite = resources.standard;
             image.type = Image.Type.Sliced;
             image.color = new Color(1f, 1f, 1f, 1f);
 
             // 添加 knob
-            GameObject knob = CreateUIObject("Knob", switchRoot);
+            GameObject knob = CreateUIObject("Knob", root);
             knob.transform.localPosition = new Vector3(-size.x / 2, 0, 0);
             Image knobImage = knob.AddComponent<Image>();
             knobImage.sprite = resources.knob;
@@ -67,13 +67,32 @@ namespace com.king011
             knobSelectable.transition = Selectable.Transition.ColorTint;
 
             // 添加組件腳本
-            Switch s = switchRoot.AddComponent<Switch>();
+            Switch s = root.AddComponent<Switch>();
             // 爲組件腳本設置初始化值
             s.transition = Selectable.Transition.None;
 
-            return switchRoot;
+            return root;
         }
+        public static GameObject CreateButtonSwitch(Resources resources)
+        {
+            // 創建節點
+            var size = new Vector2(80, 80);
+            GameObject root = CreateUIElementRoot("ButtonSwitch", size);
 
+            // 添加一個 圖像作爲背景
+            Image image = root.AddComponent<Image>();
+            image.sprite = resources.standard;
+            image.type = Image.Type.Sliced;
+            image.color = new Color(1f, 1f, 1f, 1f);
+
+            // 添加組件腳本
+            ButtonSwitch s = root.AddComponent<ButtonSwitch>();
+            // 爲組件腳本設置初始化值
+            s.transition = Selectable.Transition.None;
+            s.openedSprite = resources.checkmark;
+            s.closedSprite = resources.standard;
+            return root;
+        }
         private static GameObject CreateUIElementRoot(string name, Vector2 size)
         {
             GameObject child = new GameObject(name);

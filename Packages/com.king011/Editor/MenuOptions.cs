@@ -40,6 +40,14 @@ namespace com.king011
             // 修改創建對象的父節點
             PlaceUIElementRoot(go, menuCommand);
         }
+        [MenuItem("GameObject/UI-K/ButtonSwitch", false, 1)]
+        static public void AddButtonSwitch(MenuCommand menuCommand)
+        {
+            // 創建對象
+            GameObject go = DefaultControls.CreateButtonSwitch(GetStandardResources());
+            // 修改創建對象的父節點
+            PlaceUIElementRoot(go, menuCommand);
+        }
 
         private static void PlaceUIElementRoot(GameObject element, MenuCommand menuCommand)
         {
