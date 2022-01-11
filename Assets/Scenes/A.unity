@@ -517,9 +517,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intlTranslation: {fileID: 11400000, guid: fd4153c4918eb36cc826f07f44784519, type: 2}
-  text:
-  - key: back
-    node: {fileID: 1643701091}
+  layer:
+  - name: 
+    list:
+    - key: back
+      text: {fileID: 1643701091}
 --- !u!4 &1307032970
 Transform:
   m_ObjectHideFlags: 0
